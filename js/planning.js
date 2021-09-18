@@ -59,7 +59,15 @@ var win = {}
 
 
 window.onload = () => {
+    win.date = new Date();
+    
+    setInterval(()=>{
+        highlightToday();
+    },1000);
+    
+    initCalendar();
     initwin();
+    highlightToday();
 }
 
 async function initwin() {
@@ -71,10 +79,6 @@ async function initwin() {
     win.schedUrl = urlParams.get('src');
     win.calendar = await getCalendar();
     initCalendar();
-
-    setInterval(()=>{
-        highlightToday();
-    },1000);
 
     setInterval(async ()=>{
         win.calendar = await getCalendar();
