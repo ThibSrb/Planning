@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning</title>
+    <link rel="stylesheet" href="css/planning.css">
+    <script src="js/planning.js"></script>
+    <script src="js/assets.js"></script>
+    <script src="js/fixedVh.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="topBar">
+            <div class="controls">
+                <div class="midControls">
+                    <div class="cbutton noselect wbutton" onclick="prevWeek()"> < </div>
+                    <div class="cbutton noselect sbutton" onclick="prevDays()"> < </div>
+                    <h2 id="week">  </h2>
+                    <div class="cbutton noselect wbutton" onclick="nextWeek()"> > </div>
+                    <div class="cbutton noselect sbutton" onclick="nextDays()"> > </div>
+                </div>
+            </div>
+            <div class="daynames">
+                <div id="lu"></div>
+                <div id="ma"></div>
+                <div id="me"></div>
+                <div id="je"></div>
+                <div id="ve"></div>
+                <div id="sa"></div>
+                <div id="di"></div>
+            </div>
+        </div>
+        <div class="planGrid">
+            <div class="units">
+                <div class="unit">07:00</div>
+                <div class="unit">08:00</div>
+                <div class="unit">09:00</div>
+                <div class="unit">10:00</div>
+                <div class="unit">11:00</div>
+                <div class="unit">12:00</div>
+                <div class="unit">13:00</div>
+                <div class="unit">14:00</div>
+                <div class="unit">15:00</div>
+                <div class="unit">16:00</div>
+                <div class="unit">17:00</div>
+                <div class="unit">18:00</div>
+                <div class="unit">19:00</div>
+                <div class="unit">20:00</div>
+            </div>
+            <div class="week">
+                <div class="day d0">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+                <div class="day d1">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+                <div class="day d2">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+                <div class="day d3">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+                <div class="day d4">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+                <div class="day d5">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+                <div class="day d6">
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                    <div class="unit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <model>
+        <div class="event ev-m" style="--minutesoffset:{min1}; --minutesduration:{min2}">
+            <p class="evhours">{hm1} - {hm2}</p>
+            <p class="evsummary">{summary}</p>
+        </div>
+    </model>
+</body>
+
+</html>
