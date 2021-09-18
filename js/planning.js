@@ -55,25 +55,31 @@ function icsParseDate(strdate) {
 }
 
 
-var win = {}
+var win;
 
 
-window.onload = () => {
-    win.date = new Date();
-    
-    setInterval(()=>{
-        highlightToday();
-    },1000);
+window.onload = async () => {
+
+    await new Promise((resolve,reject)=>{
+        win = {
+            date : new Date(),
+            model : document.querySelector("model").firstElementChild.cloneNode(true),
+        };
+        resolve();
+    });
     
     initCalendar();
     initwin();
 }
 
 async function initwin() {
-    win.model = document.querySelector("model").firstElementChild.cloneNode(true);
+    
     highlightToday();
+    setInterval(()=>{
+        highlightToday();
+    },1000);
     document.querySelector("model").remove();
-    win.date = new Date();
+    
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     win.schedUrl = urlParams.get('src');
