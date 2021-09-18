@@ -67,11 +67,11 @@ window.onload = () => {
     
     initCalendar();
     initwin();
-    highlightToday();
 }
 
 async function initwin() {
     win.model = document.querySelector("model").firstElementChild.cloneNode(true);
+    highlightToday();
     document.querySelector("model").remove();
     win.date = new Date();
     const queryString = window.location.search;
