@@ -256,11 +256,11 @@ async function displayWeek() {
 function displayEvent(where, what) {
     //console.log(what);
     var node = win.model.cloneNode(true);
-    var r1 = "{min1}";
-    var r2 = "{min2}";
-    var r3 = "{hm1}";
-    var r4 = "{hm2}";
-    var r5 = "{summary}";
+    var r1 = /{min1}/ig;
+    var r2 = /{min2}/ig;
+    var r3 = /{hm1}/ig;
+    var r4 = /{hm2}/ig;
+    var r5 = /{summary}/ig;
 
     var offset = (what.start.hour - 7) * 60 + what.start.min;
     var duration = (what.end.hour - 7) * 60 + what.end.min - offset;
@@ -273,13 +273,13 @@ function displayEvent(where, what) {
     //console.log(node.outerHTML);
     document.querySelector("." + where).appendChild(node);
 
-    node.innerHTML = node.innerHTML.replace(r3, (("00" + what.start.hour).slice(-2)) + ":" + ("00" + what.start.min).slice(-2));
-    node.innerHTML = node.innerHTML.replace(r4, (("00" + what.end.hour).slice(-2)) + ":" + ("00" + what.end.min).slice(-2));
-    node.innerHTML = node.innerHTML.replace(r5, what.summary.replace("\\", ""));
-
+    node.innerHTML = node.innerHTML.replaceAll(r3, (("00" + what.start.hour).slice(-2)) + ":" + ("00" + what.start.min).slice(-2));
+    node.innerHTML = node.innerHTML.replaceAll(r4, (("00" + what.end.hour).slice(-2)) + ":" + ("00" + what.end.min).slice(-2));
+    node.innerHTML = node.innerHTML.replaceAll(r5, what.summary.replaceAll(/\\/ig, ""));
+    
     var inter = node.outerHTML;
-    inter = inter.replace(r1, offset);
-    inter = inter.replace(r2, duration);
+    inter = inter.replaceAll(r1, offset);
+    inter = inter.replaceAll(r2, duration);
     //node.outerHTML = node.outerHTML.replace(r1, offset);
     node.outerHTML = inter
 }
