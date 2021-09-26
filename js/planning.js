@@ -58,37 +58,41 @@ function icsParseDate(strdate) {
 var win;
 
 
-window.onload = async () => {
+window.onload = () => {
 
-    await new Promise((resolve,reject)=>{
-        win = {
-            date : new Date(),
-            model : document.querySelector("model").firstElementChild.cloneNode(true),
-        };
-        resolve();
-    });
-    
+
+    win = {
+        date: new Date(),
+        model: document.querySelector("model").firstElementChild.cloneNode(true),
+    };
+    document.querySelector("model").remove();
+
     initCalendar();
     initwin();
 }
 
 async function initwin() {
-    
+
     highlightToday();
-    setInterval(()=>{
+    setInterval(() => {
         highlightToday();
-    },1000);
-    document.querySelector("model").remove();
-    
+    }, 1000);
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     win.schedUrl = urlParams.get('src');
     win.calendar = await getCalendar();
     initCalendar();
 
-    setInterval(async ()=>{
+    setInterval(async () => {
         win.calendar = await getCalendar();
-    },60000);
+        initCalendar();
+    }, 15*60000);
+
+    setInterval(async () => {
+        win.date = new Date();
+        initCalendar();
+    }, 60*60000);
 }
 
 function initCalendar() {
@@ -130,7 +134,7 @@ function getWeek(currentdate) {
 
 function highlightToday() {
 
-    document.querySelectorAll(".nowIndicator").forEach(el=>{
+    document.querySelectorAll(".nowIndicator").forEach(el => {
         el.remove();
     });
 
@@ -210,14 +214,22 @@ async function displayWeek() {
     }
     current_day -= 1;
 
+    var d0 = win.monday;
+    var d1 = (new Date(win.monday.getTime() + 1 * 24 * 60 * 60 * 1000));
+    var d2 = (new Date(win.monday.getTime() + 2 * 24 * 60 * 60 * 1000));
+    var d3 = (new Date(win.monday.getTime() + 3 * 24 * 60 * 60 * 1000));
+    var d4 = (new Date(win.monday.getTime() + 4 * 24 * 60 * 60 * 1000));
+    var d5 = (new Date(win.monday.getTime() + 5 * 24 * 60 * 60 * 1000));
+    var d6 = (new Date(win.monday.getTime() + 6 * 24 * 60 * 60 * 1000));
+
     document.querySelector("#week").innerHTML = months[win.month - 1] + " " + win.year;// + " - Semaine " + win.week;
-    document.querySelector("#lu").innerHTML = "Lun. " + win.monday.getDate();
-    document.querySelector("#ma").innerHTML = "Mar. " + (new Date(win.monday.getTime() + 1 * 24 * 60 * 60 * 1000)).getDate();
-    document.querySelector("#me").innerHTML = "Mer. " + (new Date(win.monday.getTime() + 2 * 24 * 60 * 60 * 1000)).getDate();
-    document.querySelector("#je").innerHTML = "Jeu. " + (new Date(win.monday.getTime() + 3 * 24 * 60 * 60 * 1000)).getDate();
-    document.querySelector("#ve").innerHTML = "Ven. " + (new Date(win.monday.getTime() + 4 * 24 * 60 * 60 * 1000)).getDate();
-    document.querySelector("#sa").innerHTML = "Sam. " + (new Date(win.monday.getTime() + 5 * 24 * 60 * 60 * 1000)).getDate();
-    document.querySelector("#di").innerHTML = "Dim. " + (new Date(win.monday.getTime() + 6 * 24 * 60 * 60 * 1000)).getDate();
+    document.querySelector("#lu").innerHTML = "Lun. " + d0.getDate();
+    document.querySelector("#ma").innerHTML = "Mar. " + d1.getDate();
+    document.querySelector("#me").innerHTML = "Mer. " + d2.getDate();
+    document.querySelector("#je").innerHTML = "Jeu. " + d3.getDate();
+    document.querySelector("#ve").innerHTML = "Ven. " + d4.getDate();
+    document.querySelector("#sa").innerHTML = "Sam. " + d5.getDate();
+    document.querySelector("#di").innerHTML = "Dim. " + d6.getDate();
 
     highlightToday();
 
@@ -226,30 +238,33 @@ async function displayWeek() {
     });
 
     var cal = win.calendar;
-
-    cal.events.forEach(element => {
-        if (element.start.day == win.monday.getDate() && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d0", element);
-        }
-        if (element.start.day == win.monday.getDate() + 1 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d1", element);
-        }
-        if (element.start.day == win.monday.getDate() + 2 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d2", element);
-        }
-        if (element.start.day == win.monday.getDate() + 3 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d3", element);
-        }
-        if (element.start.day == win.monday.getDate() + 4 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d4", element);
-        }
-        if (element.start.day == win.monday.getDate() + 5 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d5", element);
-        }
-        if (element.start.day == win.monday.getDate() + 6 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d6", element);
-        }
-    });
+    if (cal) {
+        cal.events.forEach(element => {
+            //console.log("el : " + element.start.day + "/" + element.start.month + "/" + element.start.year);
+            //console.log("d0 : " + d0.getDate() + "/" + d0.getMonth() + "/" + d0.getFullYear());
+            if (element.start.day == d0.getDate() && element.start.year == d0.getFullYear() && element.start.month == d0.getMonth() + 1) {
+                displayEvent("d0", element);
+            }
+            if (element.start.day == d1.getDate() && element.start.year == d1.getFullYear() && element.start.month == d1.getMonth() + 1) {
+                displayEvent("d1", element);
+            }
+            if (element.start.day == d2.getDate() && element.start.year == d2.getFullYear() && element.start.month == d2.getMonth() + 1) {
+                displayEvent("d2", element);
+            }
+            if (element.start.day == d3.getDate() && element.start.year == d3.getFullYear() && element.start.month == d3.getMonth() + 1) {
+                displayEvent("d3", element);
+            }
+            if (element.start.day == d4.getDate() && element.start.year == d4.getFullYear() && element.start.month == d4.getMonth() + 1) {
+                displayEvent("d4", element);
+            }
+            if (element.start.day == d5.getDate() && element.start.year == d5.getFullYear() && element.start.month == d5.getMonth() + 1) {
+                displayEvent("d5", element);
+            }
+            if (element.start.day == d6.getDate() && element.start.year == d6.getFullYear() && element.start.month == d6.getMonth() + 1) {
+                displayEvent("d6", element);
+            }
+        });
+    }
 }
 
 
@@ -276,7 +291,7 @@ function displayEvent(where, what) {
     node.innerHTML = node.innerHTML.replaceAll(r3, (("00" + what.start.hour).slice(-2)) + ":" + ("00" + what.start.min).slice(-2));
     node.innerHTML = node.innerHTML.replaceAll(r4, (("00" + what.end.hour).slice(-2)) + ":" + ("00" + what.end.min).slice(-2));
     node.innerHTML = node.innerHTML.replaceAll(r5, what.summary.replaceAll(/\\/ig, ""));
-    
+
     var inter = node.outerHTML;
     inter = inter.replaceAll(r1, offset);
     inter = inter.replaceAll(r2, duration);
@@ -327,25 +342,30 @@ async function displayWeekTel() {
     }
     current_day -= 1;
 
+    var d0 = win.date;
+    var d1 = (new Date(win.date.getTime() + 1 * 24 * 60 * 60 * 1000));
+    var d2 = (new Date(win.date.getTime() + 2 * 24 * 60 * 60 * 1000));
+
     document.querySelector("#week").innerHTML = months[win.month - 1] + " " + win.year;// + " - Semaine " + win.week;
 
-    document.querySelector("#lu").innerHTML = days[current_day] + " " + win.date.getDate();
-    document.querySelector("#ma").innerHTML = days[(current_day + 1) % 7] + " " + (new Date(win.date.getTime() + 1 * 24 * 60 * 60 * 1000)).getDate();
-    document.querySelector("#me").innerHTML = days[(current_day + 2) % 7] + " " + (new Date(win.date.getTime() + 2 * 24 * 60 * 60 * 1000)).getDate();
+    document.querySelector("#lu").innerHTML = days[current_day] + " " + d0.getDate();
+    document.querySelector("#ma").innerHTML = days[(current_day + 1) % 7] + " " + d1.getDate();
+    document.querySelector("#me").innerHTML = days[(current_day + 2) % 7] + " " + d2.getDate();
 
     var cal = win.calendar;
-
-    cal.events.forEach(element => {
-        if (element.start.day == win.date.getDate() && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d0", element);
-        }
-        if (element.start.day == win.date.getDate() + 1 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d1", element);
-        }
-        if (element.start.day == win.date.getDate() + 2 && element.start.year == win.year && element.start.month == win.month) {
-            displayEvent("d2", element);
-        }
-    });
+    if (cal) {
+        cal.events.forEach(element => {
+            if (element.start.day == d0.getDate() && element.start.year == d0.getFullYear() && element.start.month == d0.getMonth() + 1) {
+                displayEvent("d0", element);
+            }
+            if (element.start.day == d1.getDate() && element.start.year == d1.getFullYear() && element.start.month == d1.getMonth() + 1) {
+                displayEvent("d1", element);
+            }
+            if (element.start.day == d2.getDate() && element.start.year == d2.getFullYear() && element.start.month == d2.getMonth() + 1) {
+                displayEvent("d2", element);
+            }
+        });
+    }
 
     highlightToday();
 }
