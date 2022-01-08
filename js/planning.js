@@ -87,12 +87,12 @@ async function initwin() {
     setInterval(async () => {
         win.calendar = await getCalendar();
         initCalendar();
-    }, 15*60000);
+    }, 15 * 60000);
 
     setInterval(async () => {
         win.date = new Date();
         initCalendar();
-    }, 60*60000);
+    }, 60 * 60000);
 }
 
 function initCalendar() {
